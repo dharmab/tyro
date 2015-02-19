@@ -1,0 +1,11 @@
+---
+- name: create application directories
+  file: path=/opt/tyro/{{ item }} state=directory owner=root group=root
+  with_items:
+    - app
+    - properties
+  sudo: yes
+
+- name: template database configuration
+  template: src=hikari.properties dest=/opt/tyro/properties/hikari.properties
+  sudo: yes

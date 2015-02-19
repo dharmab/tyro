@@ -1,0 +1,4 @@
+---
+- include: database.yml
+- include: development.yml
+- include: production.yml

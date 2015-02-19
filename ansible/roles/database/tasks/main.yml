@@ -1,0 +1,49 @@
+---
+- name: install ansible postgresql dependencies
+  yum: name=python-psycopg2
+  sudo: yes
+
+- name: install postgresql
+  yum: name=postgresql-server
+  sudo: yes
+  register: postgresql_installation
+
+- name: initialize postgresql
+  command: /usr/bin/postgresql-setup initdb
+  when: postgresql_installation|changed
+  sudo: yes
+
+- name: configure postgresql access
+  template: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+  sudo: yes
+  sudo_user: postgres
+  register: postgresql_access
+
+- name: configure postgresql listening addresses
+  lineinfile: dest=/var/lib/pgsql/data/postgresql.conf regexp='^listen_addresses*' line="listen_addresses = '*'"
+  sudo: yes
+  sudo_user: postgres
+
+- name: restart postgresql
+  service: name=postgresql state=restarted
+  when: postgresql_installation|changed or postgresql_access|changed
+  sudo: yes
+
+- name: enable postgresql
+  service: name=postgresql state=started enabled=yes
+  sudo: yes
+
+- name: create postgresql user
+  postgresql_user: name={{ database.user }} password={{ database.password }} encrypted=no
+  sudo: yes
+  sudo_user: postgres
+
+- name: create postgresql database
+  postgresql_db: name={{ database.database }} owner={{ database.user }}
+  sudo: yes
+  sudo_user: postgres
+
+- name: open postgresql port
+  firewalld: port={{ database.port }}/tcp permanent=true state=enabled
+  sudo: yes
+  notify: reload firewall
