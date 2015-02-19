@@ -1,1 +1,17 @@
 ---
+- name: install maven
+  yum: name=maven
+  sudo: yes
+
+# In a UNIX environment, GWT tests (and in some cases the GWT compiler) require an X display.
+- name: install xvfb
+  yum: name=xorg-x11-server-Xvfb
+  sudo: yes
+
+- name: install tyro scripts
+  copy: src=tyro-dev-mode.sh dest=/home/vagrant/bin/tyro-dev-mode mode=0775
+
+- name: open dev mode ports
+  firewalld: port=9876/tcp permanent=true state=enabled
+  sudo: yes
+  notify: reload firewall

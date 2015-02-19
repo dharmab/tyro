@@ -196,6 +196,8 @@
                     <failOnError>true</failOnError>
                     <finalName>${project.name}</finalName>
                     <style>PRETTY</style>
+                    <bindAddress>0.0.0.0</bindAddress>
+                    <codeServerPort>9876</codeServerPort>
                 </configuration>
             </plugin>
         </plugins>
