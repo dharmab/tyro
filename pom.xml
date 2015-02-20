@@ -192,8 +192,10 @@
                 <!-- Plugin configuration. There are many available options, see
                   gwt-maven-plugin documentation at codehaus.org -->
                 <configuration>
-                    <runTarget>com.dharmab.tyro.client.Tyro/tyro.html</runTarget>
-                    <failOnError>true</failOnError>
+                    <runTarget>tyro.html</runTarget>
+                    <modules>
+                        <module>com.dharmab.tyro.Tyro</module>
+                    </modules>
                     <finalName>${project.name}</finalName>
                     <bindAddress>0.0.0.0</bindAddress>
                     <port>8888</port>
