@@ -3,6 +3,8 @@ package com.dharmab.tyro.server.database;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.flywaydb.core.Flyway;
@@ -13,17 +15,31 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DatabaseModule extends AbstractModule {
 
+    private Logger logger = Logger.getLogger("com.dharmab.tyro.server.database.DatabaseModule");
+
     @Override
     protected void configure() {
+        bind(String.class)
+                .annotatedWith(Names.named("HikariCP Properties Filename"))
+                .toInstance("/opt/tyro/properties/hikari.properties");
     }
 
     @Provides
     @Singleton
-    DataSource provideDataSource() {
-        return new HikariDataSource(new HikariConfig("/opt/tyro/properties/hikari.properties"));
+    DataSource provideDataSource(@Named("HikariCP Properties Filename") String filename) {
+        File propertiesFile = new File(filename);
+        if (propertiesFile.exists()) {
+            return new HikariDataSource(new HikariConfig(filename));
+        } else {
+            logger.log(Level.SEVERE, "Couldn't find " + filename);
+            throw new RuntimeException();
+        }
     }
 
     @Provides

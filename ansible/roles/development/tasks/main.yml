@@ -8,10 +8,17 @@
   yum: name=xorg-x11-server-Xvfb
   sudo: yes
 
+- name: create home bin directory
+  file: path=/home/vagrant/bin state=directory owner=vagrant group=users
+  sudo: yes
+
 - name: install tyro scripts
   copy: src=tyro-dev-mode.sh dest=/home/vagrant/bin/tyro-dev-mode mode=0775
 
 - name: open dev mode ports
-  firewalld: port=9876/tcp permanent=true state=enabled
+  firewalld: port={{ item }}/tcp permanent=true state=enabled
+  with_items:
+    - 8888
+    - 9876
   sudo: yes
   notify: reload firewall

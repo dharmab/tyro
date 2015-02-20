@@ -5,4 +5,4 @@ export DISPLAY=:2
 ps -ef | grep Xvfb | grep -v grep >> /dev/null || Xvfb :2 -ac &
 # Run GWT dev mode via Maven
 cd /vagrant
-mvn gwt:run
+mvn clean && mvn package && mvn gwt:run

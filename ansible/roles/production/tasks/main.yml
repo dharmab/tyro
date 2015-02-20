@@ -25,11 +25,6 @@
   service: name=tomcat state=started enabled=yes
   sudo: yes
 
-- name: download postgresql jdbc driver
-  get_url: url=http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar dest=/usr/share/tomcat/lib/ owner=root group=root
-  sudo: yes
-  notify: restart tomcat
-
 - name: redirect HTTP/HTTPS to tomcat
   firewalld: rich_rule='rule family="ipv4" forward-port port="{{ item.src }}" protocol="tcp" to-port="{{ item.dest }}"' permanent=true state=enabled
   with_items:

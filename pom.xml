@@ -192,11 +192,11 @@
                 <!-- Plugin configuration. There are many available options, see
                   gwt-maven-plugin documentation at codehaus.org -->
                 <configuration>
-                    <runTarget>tyro.html</runTarget>
+                    <runTarget>com.dharmab.tyro.client.Tyro/tyro.html</runTarget>
                     <failOnError>true</failOnError>
                     <finalName>${project.name}</finalName>
-                    <style>PRETTY</style>
                     <bindAddress>0.0.0.0</bindAddress>
+                    <port>8888</port>
                     <codeServerPort>9876</codeServerPort>
                 </configuration>
             </plugin>

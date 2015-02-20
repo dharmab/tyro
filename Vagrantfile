@@ -12,7 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define 'development', primary: true do |development|
         development.vm.box = 'chef/centos-7.0'
         development.vm.network "private_network", ip: "10.17.71.20"
-        development.vm.network "forwarded_port", guest: 9876, host: 8000
+        development.vm.network "forwarded_port", guest: 9876, host: 9876
+        development.vm.network "forwarded_port", guest: 8888, host: 8888
     end
 
     config.vm.define 'production', autostart: false do |production|

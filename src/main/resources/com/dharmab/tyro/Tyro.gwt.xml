@@ -19,6 +19,4 @@
     <replace-with class="com.dharmab.tyro.client.validation.ClientsideValidatorFactory">
         <when-type-is class="javax.validation.ValidatorFactory"/>
     </replace-with>
-
-    <collapse-all-properties/>
 </module>
