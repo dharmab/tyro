@@ -5,6 +5,11 @@
     - tomcat
     - apache-commons-dbcp
   sudo: yes
+  
+- name: install tomcat jdbc driver
+  copy: src=postgresql-9.4-1201.jdbc41.jar dest=/usr/share/tomcat/lib/
+  sudo: yes
+  notify: restart tomcat
 
 - name: copy tomcat server configuration
   copy: src=server.xml dest=/usr/share/tomcat/conf/server.xml owner=tomcat group=tomcat

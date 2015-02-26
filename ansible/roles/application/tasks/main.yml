@@ -1,8 +1,4 @@
 ---
-- name: download postgresql jdbc driver
-  yum: name=postgresql-jdbc
-  sudo: yes
-
 - name: create application directories
   file: path=/opt/tyro/{{ item }} state=directory owner=root group=root
   with_items:
