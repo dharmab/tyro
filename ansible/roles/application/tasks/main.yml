@@ -9,3 +9,7 @@
 - name: template database configuration
   template: src=hikari.properties dest=/opt/tyro/properties/hikari.properties
   sudo: yes
+
+- name: install maven
+  yum: name=maven
+  sudo: yes

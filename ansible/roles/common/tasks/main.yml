@@ -30,3 +30,7 @@
 - name: ensure firewall is enabled
   service: name=firewalld state=started enabled=yes
   sudo: yes
+
+- name: create home bin directory
+  file: path=/home/vagrant/bin state=directory owner=vagrant group=users
+  sudo: yes

@@ -1,15 +1,7 @@
 ---
-- name: install maven
-  yum: name=maven
-  sudo: yes
-
 # In a UNIX environment, GWT tests (and in some cases the GWT compiler) require an X display.
 - name: install xvfb
   yum: name=xorg-x11-server-Xvfb
-  sudo: yes
-
-- name: create home bin directory
-  file: path=/home/vagrant/bin state=directory owner=vagrant group=users
   sudo: yes
 
 - name: install tyro scripts

@@ -45,3 +45,6 @@
     - 443/tcp
   sudo: yes
   notify: reload firewall
+
+- name: install tyro scripts
+  copy: src=tyro-production-redeploy.sh dest=/home/vagrant/bin/tyro-production-redeploy mode=0775
