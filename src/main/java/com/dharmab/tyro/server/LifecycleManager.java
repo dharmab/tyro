@@ -8,6 +8,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
+import com.zaxxer.hikari.HikariDataSource;
 import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 
@@ -60,6 +61,7 @@ public class LifecycleManager extends GuiceServletContextListener {
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         // Close database connections
         injector.getInstance(SessionFactory.class).close();
+        injector.getInstance(HikariDataSource.class).close();
 
         super.contextDestroyed(servletContextEvent);
     }

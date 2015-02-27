@@ -28,11 +28,12 @@ public class DatabaseModule extends AbstractModule {
         bind(String.class)
                 .annotatedWith(Names.named("HikariCP Properties Filename"))
                 .toInstance("/opt/tyro/properties/hikari.properties");
+        bind(DataSource.class).to(HikariDataSource.class).in(Singleton.class);
     }
 
     @Provides
     @Singleton
-    DataSource provideDataSource(@Named("HikariCP Properties Filename") String filename) {
+    HikariDataSource provideHikariDataSource(@Named("HikariCP Properties Filename") String filename) {
         File propertiesFile = new File(filename);
         if (propertiesFile.exists()) {
             return new HikariDataSource(new HikariConfig(filename));
