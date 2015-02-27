@@ -34,16 +34,16 @@
   sudo: yes
 
 - name: create postgresql user
-  postgresql_user: name={{ database.user }} password={{ database.password }} encrypted=no
+  postgresql_user: name={{ postgresql.user }} password={{ postgresql.password }} encrypted=no
   sudo: yes
   sudo_user: postgres
 
 - name: create postgresql database
-  postgresql_db: name={{ database.database }} owner={{ database.user }}
+  postgresql_db: name={{ postgresql.database }} owner={{ postgresql.user }}
   sudo: yes
   sudo_user: postgres
 
 - name: open postgresql port
-  firewalld: port={{ database.port }}/tcp permanent=true state=enabled
+  firewalld: port={{ postgresql.port }}/tcp permanent=true state=enabled
   sudo: yes
   notify: reload firewall

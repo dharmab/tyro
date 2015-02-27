@@ -35,12 +35,17 @@ public class DatabaseModule extends AbstractModule {
     @Singleton
     HikariDataSource provideHikariDataSource(@Named("HikariCP Properties Filename") String filename) {
         File propertiesFile = new File(filename);
+        HikariConfig config;
         if (propertiesFile.exists()) {
-            return new HikariDataSource(new HikariConfig(filename));
+            config = new HikariConfig(filename);
         } else {
-            logger.log(Level.SEVERE, "Couldn't find " + filename);
-            throw new RuntimeException();
+            logger.log(Level.SEVERE, "Couldn't find " + filename + " - falling back on development mode defaults!");
+            config = new HikariConfig();
+            config.setJdbcUrl("jdbc:postgresql://10.17.71.10/tyro");
+            config.setUsername("tyro");
+            config.setPassword("tyro");
         }
+        return new HikariDataSource(config);
     }
 
     @Provides

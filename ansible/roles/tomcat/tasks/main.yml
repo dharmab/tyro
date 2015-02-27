@@ -1,4 +1,11 @@
 ---
+
+
+- name: install maven
+  yum: name=maven
+  sudo: yes
+  when: environment=='development'
+
 - name: install tomcat
   yum: name={{ item }}
   with_items:
@@ -10,6 +17,23 @@
   copy: src=postgresql-9.4-1201.jdbc41.jar dest=/usr/share/tomcat/lib/
   sudo: yes
   notify: restart tomcat
+
+# In a UNIX environment, GWT tests (and in some cases the GWT compiler) require an X display.
+- name: install xvfb
+  yum: name=xorg-x11-server-Xvfb
+  sudo: yes
+  when: environment=='development'
+
+- name: create application directories
+  file: path=/opt/tyro/{{ item }} state=directory owner=root group=root
+  with_items:
+    - app
+    - properties
+  sudo: yes
+
+- name: template postgresql connection properties
+  template: src=hikari.properties dest=/opt/tyro/properties/hikari.properties
+  sudo: yes
 
 - name: copy tomcat server configuration
   copy: src=server.xml dest=/usr/share/tomcat/conf/server.xml owner=tomcat group=tomcat
@@ -30,6 +54,13 @@
   service: name=tomcat state=started enabled=yes
   sudo: yes
 
+- name: install tyro scripts
+  copy: src={{ item }} dest=/home/vagrant/bin/tyro-dev-mode mode=0775
+  with_items:
+    - { src: 'tyro-dev-mode.sh', dest: 'tyro-dev-mode' }
+    - { src: 'tyro-redeploy.sh', dest: 'tyro-redeploy' }
+  when: environment=='development'
+
 - name: redirect HTTP/HTTPS to tomcat
   firewalld: rich_rule='rule family="ipv4" forward-port port="{{ item.src }}" protocol="tcp" to-port="{{ item.dest }}"' permanent=true state=enabled
   with_items:
@@ -46,5 +77,11 @@
   sudo: yes
   notify: reload firewall
 
-- name: install tyro scripts
-  copy: src=tyro-production-redeploy.sh dest=/home/vagrant/bin/tyro-production-redeploy mode=0775
+- name: open dev mode ports
+  firewalld: port={{ item }}/tcp permanent=true state=enabled
+  with_items:
+    - 8888
+    - 9876
+  sudo: yes
+  when: environment=='development'
+  notify: reload firewall
