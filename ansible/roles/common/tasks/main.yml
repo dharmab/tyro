@@ -11,6 +11,10 @@
   ini_file: dest=/etc/yum.repos.d/epel.repo section=epel option=enabled value=1
   sudo: yes
 
+- name: enable delta rpms
+  yum: name=deltarpm
+  sudo: yes
+
 - name: update all packages
   yum: name=* state=latest
   sudo: yes

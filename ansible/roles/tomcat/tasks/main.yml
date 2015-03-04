@@ -1,10 +1,7 @@
 ---
-
-
 - name: install maven
   yum: name=maven
   sudo: yes
-  when: environment=='development'
 
 - name: install tomcat
   yum: name={{ item }}
@@ -13,7 +10,7 @@
     - apache-commons-dbcp
   sudo: yes
   
-- name: install tomcat jdbc driver
+- name: install postgresql jdbc driver
   copy: src=postgresql-9.4-1201.jdbc41.jar dest=/usr/share/tomcat/lib/
   sudo: yes
   notify: restart tomcat
@@ -22,7 +19,6 @@
 - name: install xvfb
   yum: name=xorg-x11-server-Xvfb
   sudo: yes
-  when: environment=='development'
 
 - name: create application directories
   file: path=/opt/tyro/{{ item }} state=directory owner=root group=root
@@ -35,13 +31,13 @@
   template: src=hikari.properties dest=/opt/tyro/properties/hikari.properties
   sudo: yes
 
-- name: copy tomcat server configuration
-  copy: src=server.xml dest=/usr/share/tomcat/conf/server.xml owner=tomcat group=tomcat
+- name: install insecure SSL key
+  copy: src=keystore dest=/etc/tomcat/keystore
   sudo: yes
   notify: restart tomcat
 
-- name: copy insecure SSL key
-  copy: src=keystore dest=/etc/tomcat/keystore owner=tomcat group=tomcat
+- name: template tomcat server configuration
+  copy: src=server.xml dest=/usr/share/tomcat/conf/server.xml
   sudo: yes
   notify: restart tomcat
 
@@ -55,11 +51,9 @@
   sudo: yes
 
 - name: install tyro scripts
-  copy: src={{ item }} dest=/home/vagrant/bin/tyro-dev-mode mode=0775
+  copy: src={{ item.src }} dest=/home/vagrant/bin/{{ item.dest }} mode=0775
   with_items:
-    - { src: 'tyro-dev-mode.sh', dest: 'tyro-dev-mode' }
-    - { src: 'tyro-redeploy.sh', dest: 'tyro-redeploy' }
-  when: environment=='development'
+    - { src: "tyro-redeploy.sh", dest: "tyro-redeploy" }
 
 - name: redirect HTTP/HTTPS to tomcat
   firewalld: rich_rule='rule family="ipv4" forward-port port="{{ item.src }}" protocol="tcp" to-port="{{ item.dest }}"' permanent=true state=enabled
@@ -77,11 +71,3 @@
   sudo: yes
   notify: reload firewall
 
-- name: open dev mode ports
-  firewalld: port={{ item }}/tcp permanent=true state=enabled
-  with_items:
-    - 8888
-    - 9876
-  sudo: yes
-  when: environment=='development'
-  notify: reload firewall

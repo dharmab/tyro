@@ -197,9 +197,6 @@
                         <module>com.dharmab.tyro.Tyro</module>
                     </modules>
                     <finalName>${project.name}</finalName>
-                    <bindAddress>0.0.0.0</bindAddress>
-                    <port>8888</port>
-                    <codeServerPort>9876</codeServerPort>
                 </configuration>
             </plugin>
         </plugins>
