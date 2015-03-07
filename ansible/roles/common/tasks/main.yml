@@ -23,15 +23,15 @@
   yum: name=ntp state=present
   sudo: yes
 
-- name: ensure ntp is enabled
+- name: enable ntp
   service: name=ntpd state=started enabled=yes
   sudo: yes
 
-- name: ensure sshd is enabled
+- name: enable ssh
   service: name=sshd state=started enabled=yes
   sudo: yes
 
-- name: ensure firewall is enabled
+- name: enable firewall
   service: name=firewalld state=started enabled=yes
   sudo: yes
 

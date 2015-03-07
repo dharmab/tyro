@@ -1,0 +1,6 @@
+postgresql: 
+  address: localhost
+  port: 5432
+  database: tyro
+  user: tyro
+  password: tyro

@@ -9,7 +9,7 @@
     - tomcat
     - apache-commons-dbcp
   sudo: yes
-  
+
 - name: install postgresql jdbc driver
   copy: src=postgresql-9.4-1201.jdbc41.jar dest=/usr/share/tomcat/lib/
   sudo: yes
@@ -37,7 +37,7 @@
   notify: restart tomcat
 
 - name: template tomcat server configuration
-  copy: src=server.xml dest=/usr/share/tomcat/conf/server.xml
+  template: src=server.xml dest=/usr/share/tomcat/conf/server.xml
   sudo: yes
   notify: restart tomcat
 
@@ -50,10 +50,8 @@
   service: name=tomcat state=started enabled=yes
   sudo: yes
 
-- name: install tyro scripts
-  copy: src={{ item.src }} dest=/home/vagrant/bin/{{ item.dest }} mode=0775
-  with_items:
-    - { src: "tyro-redeploy.sh", dest: "tyro-redeploy" }
+- name: install tyro script
+  template: src=tyro-redeploy.sh dest=/home/vagrant/bin/tyro-redeploy mode=0775
 
 - name: redirect HTTP/HTTPS to tomcat
   firewalld: rich_rule='rule family="ipv4" forward-port port="{{ item.src }}" protocol="tcp" to-port="{{ item.dest }}"' permanent=true state=enabled
@@ -61,7 +59,7 @@
     - { src: 80, dest: 8080 }
     - { src: 443, dest: 8443 }
   sudo: yes
-  notify: reload firewall
+  notify: restart firewall
 
 - name: open HTTP ports
   firewalld: port={{ item }} permanent=true state=enabled
@@ -69,5 +67,4 @@
     - 80/tcp
     - 443/tcp
   sudo: yes
-  notify: reload firewall
-
+  notify: restart firewall

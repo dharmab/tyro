@@ -1,4 +1,4 @@
 ---
-- name: reload firewall
-  service: name=firewalld state=reloaded
+- name: restart firewall
+  service: name=firewalld state=restarted
   sudo: yes

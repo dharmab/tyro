@@ -1,3 +1,8 @@
 ---
-- include: postgresql.yml
-- include: tomcat.yml
+- hosts: postgresql
+  roles:
+    - postgresql
+
+- hosts: tomcat
+  roles:
+    - tomcat

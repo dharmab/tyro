@@ -1,4 +1,0 @@
----
-- hosts: tomcat
-  roles:
-  - tomcat
