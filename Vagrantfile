@@ -14,7 +14,7 @@ end
 
 VAGRANTFILE_API_VERSION = '2'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-    config.vm.define 'development' do |development|
+    config.vm.define 'development', primary: true do |development|
         development.vm.box = 'chef/centos-7.0'
         development.vm.synced_folder ".", "/vagrant", mount_options: ['dmode=775', 'fmode=664']
         development.vm.network "forwarded_port", guest: 80, host: 8080
@@ -22,12 +22,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         development.vm.network "forwarded_port", guest: 5432, host: 5432
     end
 
+    config.vm.define 'website', autostart: false do |website|
+        website.vm.box = "chef/centos-7.0"
+        website.vm.synced_folder ".", "/vagrant", mount_options: ['dmode=775', 'fmode=664']
+        website.vm.network "forwarded_port", guest: 4000, host: 4000
+    end
+
     if which('ansible-playbook')
         config.vm.provision 'ansible', run: 'always' do |ansible|
             ansible.playbook = 'ansible/site.yml'
             ansible.groups = {
                 'tomcat' => ['development'],
-                'postgresql' => ['development']
+                'postgresql' => ['development'],
+                'jekyll' => ['website']
             }
         end
     else

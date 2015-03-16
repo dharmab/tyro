@@ -1,0 +1,16 @@
+---
+- name: install dependeices
+  yum: name={{ item }}
+  with_items:
+  - ruby
+  - ruby-devel
+  - nodejs
+  sudo: yes
+
+- name: install jekyll
+  gem: name=jekyll
+
+- name: open jekyll port
+  firewalld: port=4000/tcp permanent=true state=enabled
+  sudo: yes
+  notify: restart firewall

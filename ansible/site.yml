@@ -6,3 +6,7 @@
 - hosts: tomcat
   roles:
     - tomcat
+
+- hosts: jekyll
+  roles:
+    - jekyll
