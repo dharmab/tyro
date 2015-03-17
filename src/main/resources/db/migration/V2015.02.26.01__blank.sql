@@ -1,1 +1,0 @@
--- Blank migration so that Flyway can work out of the box

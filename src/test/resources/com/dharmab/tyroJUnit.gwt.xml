@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--suppress ALL -->
-<module rename-to="tyro">
-    <!-- Inherit our applications main module.                      -->
-    <inherits name='com.dharmab.tyro.tyro'/>
-    <inherits name="com.google.web.bindery.requestfactory.RequestFactory"/>
-    <inherits name="com.google.gwt.inject.Inject"/>
-</module>
