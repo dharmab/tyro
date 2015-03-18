@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Generic class for database access objects.
  *
- * @param <T> The type of entity this DAO will manage access for. Must be mapped with JPA/Hibernate.
+ * @param <T> The type of entity this DAO will manage. Must be mapped with JPA/Hibernate.
  * @param <I> The type of the entity's id property.
  * @param <V> The type of the entity's version property.
  */
@@ -72,7 +72,7 @@ public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, 
     }
 
     /**
-     * Retreive a list of entities by ID
+     * Retrieve a list of entities by ID
      *
      * @param start     The ID of the first entity to retreive from teh database.
      * @param maxLength The maximum number of entities to retrieve from the database.

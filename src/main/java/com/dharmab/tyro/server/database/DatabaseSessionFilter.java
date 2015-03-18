@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Servlet flter that manages database session transactions
+ * Servlet filter that manages database session transactions
  */
 @Singleton
 public class DatabaseSessionFilter implements Filter {

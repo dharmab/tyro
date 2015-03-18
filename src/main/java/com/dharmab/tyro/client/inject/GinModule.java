@@ -46,7 +46,7 @@ public class GinModule extends AbstractGinModule {
      * <p/>
      * Write the constructor as normal:
      * <pre>
-     * <code>public class MyActivity implements MyPresenter {
+     * <code>public class MyActivity extends Activity implements MyPresenter {
      *     private MyView view;
      *
      *     {@literal @}Inject
@@ -68,7 +68,7 @@ public class GinModule extends AbstractGinModule {
      * Annotate the constructor parameters with {@link com.google.inject.assistedinject.Assisted} to indicate assisted
      * dependencies. In this example, the place object contains a required browser URL token.
      * <pre>
-     * <code>public class MyActivity implements MyPresenter {
+     * <code>public class MyActivity extends Activity implements MyPresenter {
      *     private MyView view;
      *     private MyPlace place;
      *

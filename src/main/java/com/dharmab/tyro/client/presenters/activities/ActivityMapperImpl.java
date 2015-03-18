@@ -7,6 +7,9 @@ import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 import com.google.inject.Inject;
 
+/**
+ * the ActivityMapper determines which screen is displayed when the user enters or otherwise is directed to a particular URL
+ */
 public class ActivityMapperImpl implements ActivityMapper {
 
     ActivityFactory activityFactory;

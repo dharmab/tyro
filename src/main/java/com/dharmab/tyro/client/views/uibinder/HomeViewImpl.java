@@ -7,6 +7,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.inject.Inject;
 
+/**
+ * Simple static page to act as a placeholder for new applications
+ */
 public class HomeViewImpl extends Composite implements HomeView {
     private static HomeViewImplUiBinder uiBinder = GWT.create(HomeViewImplUiBinder.class);
 

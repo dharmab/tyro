@@ -3,7 +3,7 @@ package com.dharmab.tyro.server.database;
 import java.io.Serializable;
 
 /**
- * Implementors of this interface have an ID and version field suitable for use with a database.
+ * Implementers of this interface have an ID and version field suitable for use with a database.
  * @param <I> The ID type
  * @param <V> The version type
  */
