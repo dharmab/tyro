@@ -75,7 +75,7 @@ public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, 
     /**
      * Retrieve a list of entities by ID
      *
-     * @param start     The ID of the first entity to retreive from teh database.
+     * @param start     The ID of the first entity to retrieve from the database.
      * @param maxLength The maximum number of entities to retrieve from the database.
      * @return A list containing up to the maximum specified number of entities, starting from
      * the given starting ID and ordered by ID ascending.
