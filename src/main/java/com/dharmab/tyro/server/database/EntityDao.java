@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 
 import java.io.Serializable;
 import java.util.List;
@@ -87,6 +88,17 @@ public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, 
                 .setMaxResults(maxLength)
                 .list();
         return results;
+    }
+
+    /**
+     *
+     * @return The number of entities in the database
+     */
+    public Number count() {
+        return (Number) getCurrentSession()
+                .createCriteria(clazz)
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
     }
 
     /**
