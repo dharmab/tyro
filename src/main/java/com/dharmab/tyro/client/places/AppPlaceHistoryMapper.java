@@ -5,7 +5,7 @@ import com.google.gwt.place.shared.WithTokenizers;
 
 // List each place tokenizer here
 @WithTokenizers({
-    HomePlace.Tokenizer.class
+        HomePlace.Tokenizer.class
 })
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
 }

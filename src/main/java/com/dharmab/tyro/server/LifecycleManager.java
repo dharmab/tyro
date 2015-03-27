@@ -26,22 +26,22 @@ public class LifecycleManager extends GuiceServletContextListener {
 
     private Injector createInjector() {
         return Guice.createInjector(
-                    new DatabaseModule(),
-                    new ServletModule() {
-                        @Override
-                        protected void configureServlets() {
-                            // Hibernate thread-scoped sessions
-                            filter("/*").through(DatabaseSessionFilter.class);
+                new DatabaseModule(),
+                new ServletModule() {
+                    @Override
+                    protected void configureServlets() {
+                        // Hibernate thread-scoped sessions
+                        filter("/*").through(DatabaseSessionFilter.class);
 
-                            // RequestFactory servlet mapping
-                            install(new InjectableRequestFactoryModule());
-                            serve("/gwtRequest").with(InjectableRequestFactoryServlet.class);
+                        // RequestFactory servlet mapping
+                        install(new InjectableRequestFactoryModule());
+                        serve("/gwtRequest").with(InjectableRequestFactoryServlet.class);
 
-                            // RPC servlet mappings go here
-                            // example:
-                            //serve("/someurl").with(MyServiceImpl.class);
-                        }
-                    });
+                        // RPC servlet mappings go here
+                        // example:
+                        //serve("/someurl").with(MyServiceImpl.class);
+                    }
+                });
     }
 
     @Override

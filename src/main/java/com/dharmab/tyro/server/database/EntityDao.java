@@ -91,7 +91,6 @@ public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, 
     }
 
     /**
-     *
      * @return The number of entities in the database
      */
     public Number count() {
