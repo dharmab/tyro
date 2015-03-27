@@ -16,8 +16,8 @@ import java.util.logging.Logger;
  */
 @Singleton
 public class DatabaseSessionFilter implements Filter {
-    private SessionFactory sessionFactory;
-    private Logger logger;
+    private final SessionFactory sessionFactory;
+    private final Logger logger;
 
     @Inject
     public DatabaseSessionFilter(SessionFactory sessionFactory, Logger logger) {

@@ -12,7 +12,7 @@ import com.google.inject.Inject;
  */
 public class ActivityMapperImpl implements ActivityMapper {
 
-    ActivityFactory activityFactory;
+    final ActivityFactory activityFactory;
 
     @Inject
     public ActivityMapperImpl(ActivityFactory activityFactory) {

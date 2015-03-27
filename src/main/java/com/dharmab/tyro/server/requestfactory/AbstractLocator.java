@@ -16,9 +16,9 @@ import java.io.Serializable;
  * @see com.google.web.bindery.requestfactory.shared.Locator
  */
 public abstract class AbstractLocator<E extends HasIdAndVersion<I, V>, I extends Serializable, V extends Serializable> extends Locator<E, I> {
-    private SessionFactory sessionFactory;
-    private Class<E> domainType;
-    private Class<I> idType;
+    private final SessionFactory sessionFactory;
+    private final Class<E> domainType;
+    private final Class<I> idType;
 
     /**
      * @param domainType     The entity's domain class

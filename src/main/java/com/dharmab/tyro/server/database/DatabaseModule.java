@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 public class DatabaseModule extends AbstractModule {
 
-    private Logger logger = Logger.getLogger("com.dharmab.tyro.server.database.DatabaseModule");
+    private final Logger logger = Logger.getLogger("com.dharmab.tyro.server.database.DatabaseModule");
 
     @Override
     protected void configure() {

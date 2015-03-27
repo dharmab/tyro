@@ -17,15 +17,17 @@ import java.util.List;
  * @param <V> The type of the entity's version property.
  */
 public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, V extends Serializable> {
-    private SessionFactory sessionFactory;
-    private Class<T> clazz;
+    private final SessionFactory sessionFactory;
+    private final Class<T> domainType;
 
     /**
-     * @param clazz          The class that this EntityDao should manage
+     * @param domainType     The class that this EntityDao should manage
      * @param sessionFactory The Hibernate session factory
      */
-    public EntityDao(Class<T> clazz, SessionFactory sessionFactory) {
-        this.clazz = clazz;
+    public EntityDao(Class<T> domainType, SessionFactory sessionFactory) {
+        // Type information has be be specified twice (once in the generic and once in the constructor) because
+        // Generics in java are subject to type erasure, preventing us from determining the type at runtime.
+        this.domainType = domainType;
         this.sessionFactory = sessionFactory;
     }
 
@@ -68,7 +70,7 @@ public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, 
      */
     public Optional<T> get(I id) {
         // Converting a database type to a Java type is inherently unchecked
-        @SuppressWarnings("unchecked") T entity = (T) getCurrentSession().get(clazz, id);
+        @SuppressWarnings("unchecked") T entity = (T) getCurrentSession().get(domainType, id);
         return Optional.fromNullable(entity);
     }
 
@@ -82,7 +84,7 @@ public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, 
      */
     public List<T> get(I start, int maxLength) {
         @SuppressWarnings("unchecked") List<T> results = getCurrentSession()
-                .createCriteria(clazz)
+                .createCriteria(domainType)
                 .setFirstResult((Integer) start)
                 .addOrder(Order.asc("id"))
                 .setMaxResults(maxLength)
@@ -95,7 +97,7 @@ public class EntityDao<T extends HasIdAndVersion<I, V>, I extends Serializable, 
      */
     public Number count() {
         return (Number) getCurrentSession()
-                .createCriteria(clazz)
+                .createCriteria(domainType)
                 .setProjection(Projections.rowCount())
                 .uniqueResult();
     }

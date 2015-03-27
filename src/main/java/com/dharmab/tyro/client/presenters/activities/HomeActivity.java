@@ -9,7 +9,7 @@ import com.google.inject.Inject;
  * Simple placeholder activity
  */
 public class HomeActivity extends Activity implements HomePresenter {
-    private HomeView view;
+    private final HomeView view;
 
     @Inject
     public HomeActivity(HomeView view) {

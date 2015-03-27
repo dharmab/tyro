@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import com.google.web.bindery.requestfactory.shared.ServiceLocator;
 
 public class InjectingServiceLocator implements ServiceLocator {
-    private Injector injector;
+    private final Injector injector;
 
     @Inject
     public InjectingServiceLocator(Injector injector) {
